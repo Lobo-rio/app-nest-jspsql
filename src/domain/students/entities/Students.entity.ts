@@ -34,7 +34,4 @@ import {
     @CreateDateColumn()
     updatedAt: Date;
 
-    @ManyToMany(()=> CoursesEntity, (course)=> course.students)
-    students: CoursesEntity[];
-  
-  }
+}

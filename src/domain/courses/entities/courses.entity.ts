@@ -26,11 +26,11 @@ export class CoursesEntity {
     period: string;
 
     @JoinTable()
-    @ManyToMany(() => TeachersEntity, (teacher) => teacher.teachers)
-    theachers: TeachersEntity[];
+    @ManyToMany(() => TeachersEntity)
+    teachers: TeachersEntity[];
 
     @JoinTable()
-    @ManyToMany(()=> StudentsEntity, (student)=> student.students)
+    @ManyToMany(()=> StudentsEntity)
     students: StudentsEntity[];
 
     @CreateDateColumn()

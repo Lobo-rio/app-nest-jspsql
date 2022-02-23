@@ -24,11 +24,15 @@ export class CoursesService {
     ){}
     
     findAll() {
-        return this.courseRepository.find();
+        return this.courseRepository.find({
+            relations: ['teachers','students']
+        });
     }
 
     async findOne(id: string){
-        const course = await this.courseRepository.findOne(id);
+        const course = await this.courseRepository.findOne(id, {
+            relations: ['teachers', 'students']
+        });
 
         if (!course) throw new NotFoundException('Course not found!');
 
@@ -44,8 +48,7 @@ export class CoursesService {
             await Promise.all(createCourseDto.students.map((id)=> this.preloadStudentByName(id)))
         );
 
-        const course = await this.courseRepository.preload({
-            id: +identity,
+        const course = this.courseRepository.create({
             ...createCourseDto,
             teachers,
             students,
@@ -55,12 +58,22 @@ export class CoursesService {
     }
 
     async update(id: string, updateCourseDto: any){
-       const course = await this.courseRepository.preload({
-           id: +id,
-           ...updateCourseDto
-       }); 
+        const teachers = updateCourseDto.teachers && (
+            await Promise.all(updateCourseDto.teachers.map((id)=> this.preloadTeacherByName(id)))
+        );
 
-       return this.courseRepository.save(course);
+        const students = updateCourseDto.students && (
+            await Promise.all(updateCourseDto.students.map((id)=> this.preloadStudentByName(id)))
+        );
+       
+        const course = await this.courseRepository.preload({
+            id: +id,
+            ...updateCourseDto,
+            teachers,
+            students,
+        }); 
+
+        return this.courseRepository.save(course);
 
     }
 
@@ -87,4 +100,5 @@ export class CoursesService {
 
         return students;
     }
+
 }

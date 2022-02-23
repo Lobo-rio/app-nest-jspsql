@@ -35,8 +35,5 @@ import {
     @ManyToMany(() => MattersEntity, (matter) => matter.teachers, { cascade: true })
     matters: MattersEntity[];
 
-    @ManyToMany(()=> CoursesEntity, (course)=> course.theachers)
-    teachers: CoursesEntity[];
-  
 }
   

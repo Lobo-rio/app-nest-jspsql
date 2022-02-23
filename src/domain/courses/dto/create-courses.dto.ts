@@ -16,10 +16,10 @@ export class CreateCoursesDto {
 
     @IsNotEmpty()
     @IsString({ each: true })
-    readonly teachers: number[];
+    readonly teachers: string[];
 
     @IsNotEmpty()
     @IsString({ each: true })
-    readonly students: number[];
+    readonly students: string[];
 
 }
