@@ -39,7 +39,7 @@ export class CoursesService {
         return course;
     }
 
-    async create(createCourseDto: any){
+    async create(createCourseDto: CreateCoursesDto){
         const teachers = createCourseDto.teachers && (
             await Promise.all(createCourseDto.teachers.map((id)=> this.preloadTeacherByName(id)))
         );
@@ -57,7 +57,7 @@ export class CoursesService {
         return this.courseRepository.save(course);
     }
 
-    async update(id: string, updateCourseDto: any){
+    async update(id: string, updateCourseDto: UpdateCoursesDto){
         const teachers = updateCourseDto.teachers && (
             await Promise.all(updateCourseDto.teachers.map((id)=> this.preloadTeacherByName(id)))
         );
